@@ -21,10 +21,23 @@ const formSchema = z.object({
   email: z.email("Invalid email. Use a format like example@email.com"),
 });
 
-export const SignUpEmail = ({ email, setEmail, handleNextStep }: any) => {
-  const form = useForm({ defaultValues: { email } });
+type SignUpEmailProps = {
+  email: string;
+  setEmail: (email: string) => void;
+  handleNextStep: () => void;
+};
 
-  const onSubmit = (values: any) => {
+export const SignUpEmail = ({
+  email,
+  setEmail,
+  handleNextStep,
+}: SignUpEmailProps) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { email },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     setEmail(values.email);
     handleNextStep();
   };

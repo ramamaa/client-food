@@ -43,6 +43,13 @@ const formSchema = z
     path: ["confirmPassword"],
   });
 
+type SignUpPasswordProps = {
+  password: string;
+  setPassword: (password: string) => void;
+  handleBackStep: () => void;
+  handleSubmitAll: () => Promise<void>;
+};
+
 export const SignUpPassword = ({
   password,
   setPassword,
