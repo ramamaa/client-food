@@ -70,7 +70,8 @@ export const SignUpPassword = ({
       <div className="w-104">
         <Button
           onClick={handleBackStep}
-          className="w-9 h-9 border-1 rounded-md flex justify-center items-center ">
+          className="w-9 h-9 border-1 rounded-md flex justify-center items-center "
+        >
           <ChevronLeft className="w-4 h-4" />
         </Button>
         <Form {...form}>
@@ -112,7 +113,8 @@ export const SignUpPassword = ({
             </div>
             <Button
               type="submit"
-              className="rounded-md bg-primary w-full h-9 px-8">
+              className="rounded-md bg-primary w-full h-9 px-8"
+            >
               Let's go
             </Button>
             <FormDescription className="flex justify-center gap-2">
