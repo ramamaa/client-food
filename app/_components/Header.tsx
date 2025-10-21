@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -11,7 +13,8 @@ export const Header = () => {
             width="36"
             height="30"
             viewBox="0 0 36 30"
-            fill="none">
+            fill="none"
+          >
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -33,11 +36,14 @@ export const Header = () => {
         <Button variant="secondary" className="rounded-full">
           Sign up
         </Button>
-        <Button
-          variant="secondary"
-          className="bg-red-500 rounded-full text-secondary">
-          Log in
-        </Button>
+        <Link href="/login">
+          <Button
+            variant="secondary"
+            className="bg-red-500 rounded-full text-secondary"
+          >
+            Log in
+          </Button>
+        </Link>
       </div>
     </div>
   );

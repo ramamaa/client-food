@@ -119,7 +119,7 @@ export const SignUpPassword = ({
             </Button>
             <FormDescription className="flex justify-center gap-2">
               Already have an account?
-              <Link href="" className="text-blue-500">
+              <Link href="/login" className="text-blue-500">
                 Log in
               </Link>
             </FormDescription>

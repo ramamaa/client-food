@@ -72,12 +72,13 @@ export const SignUpEmail = ({
             />
             <Button
               type="submit"
-              className="rounded-md bg-primary w-full h-9 px-8">
+              className="rounded-md bg-primary w-full h-9 px-8"
+            >
               Let's go
             </Button>
             <FormDescription className="flex justify-center gap-2">
               Already have an account?
-              <Link href="" className="text-blue-500">
+              <Link href="/login" className="text-blue-500">
                 Log in
               </Link>
             </FormDescription>
