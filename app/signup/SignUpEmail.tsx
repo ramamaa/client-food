@@ -16,6 +16,7 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { email, z } from "zod";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.email("Invalid email. Use a format like example@email.com"),
@@ -72,8 +73,7 @@ export const SignUpEmail = ({
             />
             <Button
               type="submit"
-              className="rounded-md bg-primary w-full h-9 px-8"
-            >
+              className="rounded-md bg-primary w-full h-9 px-8">
               Let's go
             </Button>
             <FormDescription className="flex justify-center gap-2">
