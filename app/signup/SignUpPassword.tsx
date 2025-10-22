@@ -15,8 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { email, z } from "zod";
+
+import { z } from "zod";
 const passwordChecks = [
   { test: (s: string) => s.length >= 8, msg: "At least 8 characters" },
   { test: (s: string) => /[A-Z]/.test(s), msg: "An uppercase letter" },
@@ -56,7 +56,7 @@ export const SignUpPassword = ({
   setPassword,
   handleBackStep,
   handleSubmitAll,
-}: any) => {
+}: SignUpPasswordProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { password, confirmPassword: "" },
@@ -64,14 +64,15 @@ export const SignUpPassword = ({
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setPassword(values.password);
-    handleSubmitAll(values.password);
+    handleSubmitAll();
   };
   return (
     <div>
       <div className="w-104">
         <Button
           onClick={handleBackStep}
-          className="w-9 h-9 border-1 rounded-md flex justify-center items-center ">
+          className="w-9 h-9 border-1 rounded-md flex justify-center items-center "
+        >
           <ChevronLeft className="w-4 h-4" />
         </Button>
         <Form {...form}>
@@ -114,8 +115,8 @@ export const SignUpPassword = ({
             <Button
               type="submit"
               className="rounded-md bg-primary w-full h-9 px-8"
-              onClick={() => toast.success("Account created")}>
-              Let's go
+            >
+              Let&apos;s go
             </Button>
             <FormDescription className="flex justify-center gap-2">
               Already have an account?

@@ -1,9 +1,11 @@
+import Image from "next/image";
+
 type FoodMenuCardProps = {
   food: FoodType;
 };
 
 export const FoodMenuCard = ({ food }: FoodMenuCardProps) => {
-  const { image, _id, price, ingredients, name } = food;
+  const { image, price, ingredients, name } = food;
   return (
     <div className="w-100 rounded-3xl border-1 bg-white p-4 flex flex-col gap-5">
       <div className="relative">

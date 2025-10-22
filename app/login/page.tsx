@@ -21,7 +21,7 @@ const Page = () => {
   }, []);
 
   const onLogin = async () => {
-    const result = await fetch("http://localhost:4000/api/login", {
+    const result = await fetch("https://food-backend-lac.vercel.app/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

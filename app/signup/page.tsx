@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { SignUpEmail } from "./SignUpEmail";
 import { SignUpPassword } from "./SignUpPassword";
+import { toast } from "sonner";
+import Image from "next/image";
 
 const SignUp = () => {
   const [step, setStep] = useState(0);
@@ -17,13 +19,18 @@ const SignUp = () => {
 
   const handleSubmitAll = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/userdata", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formValues),
-      });
+      const res = await fetch(
+        "https://food-backend-lac.vercel.app/api/userdata",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formValues),
+        }
+      );
       const data = await res.json();
       console.log(" Success:", data);
+
+      toast(data.message);
     } catch (err) {
       console.error(" Error:", err);
     }
@@ -54,7 +61,7 @@ const SignUp = () => {
         )}
       </div>
 
-      <img
+      <Image
         src="/images/Hurgelt.png"
         alt="Today's Offer"
         className="w-full h-full"

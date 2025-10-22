@@ -1,19 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FoodMenuCard } from "./FoodMenuCard";
+import Image from "next/image";
 
 export const HomePage = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [foods, setFoods] = useState<FoodType[]>([]);
 
   const getCategories = async () => {
-    const result = await fetch("http://localhost:4000/api/categories");
+    const result = await fetch(
+      "https://food-backend-lac.vercel.app/api/categories"
+    );
     const responseData = await result.json();
     setCategories(responseData.data);
   };
 
   const getFoods = async () => {
-    const result = await fetch("http://localhost:4000/api/food");
+    const result = await fetch("https://food-backend-lac.vercel.app/api/food");
     const responseData = await result.json();
     setFoods(responseData.data);
   };
@@ -26,7 +29,7 @@ export const HomePage = () => {
   return (
     <div className="bg-neutral-700 min-h-screen text-white">
       <div className="relative w-full">
-        <img
+        <Image
           src="/images/HomePagePicture.png"
           alt="Today's Offer"
           className="w-full h-full"
