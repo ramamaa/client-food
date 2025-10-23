@@ -1,3 +1,4 @@
+import { Plus } from "lucide-react";
 import Image from "next/image";
 
 type FoodMenuCardProps = {
@@ -9,8 +10,10 @@ export const FoodMenuCard = ({ food }: FoodMenuCardProps) => {
   return (
     <div className="w-100 rounded-3xl border-1 bg-white p-4 flex flex-col gap-5">
       <div className="relative">
-        <img src={image} alt="" className="w-91 h-fit rounded-xl " />
-        <div className="absolute bottom-5 right-5"></div>
+        <img src={image} alt="" className="w-91 h-fit rounded-xl relative" />
+        <div className="absolute bottom-5 right-5 w-11 h-11 rounded-full bg-white flex items-center justify-center cursor-pointer">
+          <Plus className="text-red-500 " />
+        </div>
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between leading-5 text-sm">
