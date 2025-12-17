@@ -3,7 +3,26 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+import { useEffect, useState } from "react";
+import { HeaderAddressComp } from "./HeaderAddressComp";
+import { HeaderShoppingCart } from "./HeaderShoppingCart";
+import { HeaderUserLogState } from "./HeaderUserLogState";
+import { useRouter } from "next/navigation";
+
 export const Header = () => {
+  const [email, setEmail] = useState<string>("");
+  const [isOpenAddress, setIsOpenAddress] = useState<boolean>(false);
+  const [deliveryAddress, setDeliveryAddress] = useState<string>("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (userEmail) setEmail(userEmail);
+
+    const savedAddress = localStorage.getItem("userAddress");
+    if (savedAddress) setDeliveryAddress(savedAddress);
+  }, []);
+
   return (
     <div className="w-full bg-primary flex justify-between items-center">
       <div className="flex gap-3 pl-22 py-3">
@@ -13,8 +32,7 @@ export const Header = () => {
             width="36"
             height="30"
             viewBox="0 0 36 30"
-            fill="none"
-          >
+            fill="none">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -32,18 +50,34 @@ export const Header = () => {
           </div>
         </Link>
       </div>
-      <div className="flex gap-2 pr-22">
-        <Button variant="secondary" className="rounded-full">
-          Sign up
-        </Button>
-        <Link href="/login">
-          <Button
-            variant="secondary"
-            className="bg-red-500 rounded-full text-secondary"
-          >
-            Log in
-          </Button>
-        </Link>
+      <div className="flex gap-[12.81px] my-1">
+        {!email && (
+          <>
+            <Button
+              onClick={() => router.push("/signup")}
+              variant={"outline"}
+              className="rounded-full border-none text-secondary-foreground px-3 cursor-pointer">
+              Sign up
+            </Button>
+            <Button
+              onClick={() => router.push("/login")}
+              variant={"destructive"}
+              className="rounded-full border-none text-primary-foreground bg-red-500 px-3 cursor-pointer">
+              Log in
+            </Button>
+          </>
+        )}
+
+        <HeaderAddressComp
+          isOpenAddress={isOpenAddress}
+          setIsOpenAddress={setIsOpenAddress}
+          deliveryAddress={deliveryAddress}
+          setDeliveryAddress={setDeliveryAddress}
+        />
+
+        <HeaderShoppingCart email={email} />
+
+        <HeaderUserLogState email={email} />
       </div>
     </div>
   );

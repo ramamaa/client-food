@@ -1,0 +1,89 @@
+"use client";
+
+import { DrawerContent } from "@/components/ui/drawer";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import React, { Dispatch, useState } from "react";
+
+import { toast } from "sonner";
+import { EmptyCart } from "./EmptyCart";
+import { HeaderShoppingCartDrawerHeader } from "./HeaderShoppingCartDrawerHeader";
+import { HeaderShoppingCartDrawerTabsList } from "./HeaderShoppingCartDrawerTabsList";
+import { HeaderShoppingCartDrawerTabCart } from "./HeaderShoppingCartDrawerTabCart";
+import { CartFood, UserOrderType } from "@/lib/types";
+import { HeaderShoppingCartDrawerTabOrder } from "./HeaderShoppingCartDrawerTabOrder";
+
+export const HeaderShoppingCartDrawerContent = ({
+  cartFoods,
+  email,
+  reloadFoods,
+  setCartOpen,
+}: {
+  cartFoods: CartFood[];
+  email: string;
+  reloadFoods: () => void;
+  setCartOpen: Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const [userOrders, setUserOrders] = useState<UserOrderType[]>([]);
+
+  const getUserOrders = async () => {
+    const res = await fetch(
+      "http://localhost:4000/api/orders/get-user-orders",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    );
+
+    if (!res) {
+      toast.error("No orders found!");
+    }
+
+    const { data } = await res.json();
+
+    setUserOrders(data);
+  };
+
+  return (
+    <DrawerContent className="data-[vaul-drawer-direction=right]:sm:max-w-[535px] p-8 gap-6 bg-neutral-700 text-primary-foreground border-none rounded-tl-[20px] rounded-bl-[20px] overflow-y-auto">
+      <HeaderShoppingCartDrawerHeader />
+
+      <Tabs defaultValue="cart" className="w-full gap-6">
+        <HeaderShoppingCartDrawerTabsList getUserOrders={getUserOrders} />
+
+        <TabsContent value="cart">
+          {cartFoods.length ? (
+            <HeaderShoppingCartDrawerTabCart
+              cartFoods={cartFoods}
+              reloadFoods={reloadFoods}
+              email={email}
+              setCartOpen={setCartOpen}
+            />
+          ) : (
+            <EmptyCart
+              tabTitle={"My cart"}
+              message={" Your cart is empthy"}
+              description={
+                "Hungry? 🍔 Add some delicious dishes to your cart and satisfy your cravings!"
+              }
+            />
+          )}
+        </TabsContent>
+
+        <TabsContent value="order">
+          {userOrders.length > 0 ? (
+            <HeaderShoppingCartDrawerTabOrder userOrders={userOrders} />
+          ) : (
+            <EmptyCart
+              tabTitle={"Order history"}
+              message={"No Orders Yet?"}
+              description={
+                "🍕 You haven't placed any orders yet. Start exploring our menu and satisfy your cravings!"
+              }
+            />
+          )}
+        </TabsContent>
+      </Tabs>
+    </DrawerContent>
+  );
+};

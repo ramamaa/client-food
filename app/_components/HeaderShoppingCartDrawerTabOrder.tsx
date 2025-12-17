@@ -1,0 +1,74 @@
+import React from "react";
+
+import { Map, Soup, Timer } from "lucide-react";
+import { UserOrderType } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@radix-ui/react-separator";
+
+export const HeaderShoppingCartDrawerTabOrder = ({
+  userOrders,
+}: {
+  userOrders: UserOrderType[];
+}) => {
+  return (
+    <div className="w-full flex flex-col gap-5 bg-background text-foreground p-4 rounded-[20px]">
+      <div className="text-xl leading-7 font-semibold">Order History</div>
+
+      <div>
+        {userOrders.map((order) => (
+          <div key={order._id} className="px-3 flex flex-col gap-3">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 text-base leading-7 font-bold items-center">
+                <div>${order.totalPrice}</div>
+                <div>(#{order._id.toString().slice(-5)})</div>
+              </div>
+              <Button
+                variant={"outline"}
+                className={`h-7 rounded-full text-xs leading-4 py-1 px-2.5 ${
+                  order.status === "PENDING"
+                    ? "border-red-500 hover:bg-red-500/10"
+                    : order.status === "DELIVERED"
+                    ? "border-green-500 hover:bg-green-500/10"
+                    : order.status === "CANCELED"
+                    ? "border-border hover:bg-border/50"
+                    : ""
+                }`}>
+                {order.status.charAt(0) + order.status.slice(1).toLowerCase()}
+              </Button>
+            </div>
+
+            <div className="text-muted-foreground flex flex-col gap-2.5 text-xs leading-4">
+              {order.foodOrderItems.map((item) => (
+                <div key={item._id} className="flex justify-between">
+                  <div className="flex gap-2">
+                    <Soup className="w-4 h-4" />
+                    <p>{item.food.foodName}</p>
+                  </div>
+                  <div className="text-foreground">x {item.quantity}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-2 text-muted-foreground items-center">
+              <Timer className="w-4 h-4" />
+              <p className="text-xs leading-4">
+                {order.createdAt
+                  ? new Date(order.createdAt).toLocaleDateString("en-CA")
+                  : ""}
+              </p>
+            </div>
+
+            <div className="flex gap-2 text-muted-foreground items-center">
+              <Map className="w-4 h-4 shrink-0" />
+              <p className="text-xs leading-4 line-clamp-1">
+                {order.userId.address}
+              </p>
+            </div>
+
+            <Separator className="mb-3 border-dashed border-t border-muted-foreground/80" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

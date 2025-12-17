@@ -1,66 +1,32 @@
 "use client";
+
 import React, { useState } from "react";
-import { SignUpEmail } from "./SignUpEmail";
-import { SignUpPassword } from "./SignUpPassword";
+import { SignupEmail } from "./SignUpEmail";
+import { SignupPassword } from "./SignUpPassword";
 
-const SignUp = () => {
-  const [step, setStep] = useState(0);
+import { LogImage } from "./LogImage";
 
-  const [formValues, setFormValues] = useState({
-    email: "",
-    password: "",
-  });
-  const handleNextStep = () => {
-    setStep((prev) => prev + 1);
-  };
-  const handleBackStep = () => step > 0 && setStep((prev) => prev - 1);
+const SignupPage = () => {
+  const [step, setStep] = useState<number>(0);
+  const StepComponents = [SignupEmail, SignupPassword][step];
+  const [email, setEmail] = useState<string>("");
 
-  const handleSubmitAll = async () => {
-    try {
-      const res = await fetch("http://localhost:4000/api/userdata", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formValues),
-      });
-      const data = await res.json();
-      console.log(" Success:", data);
-    } catch (err) {
-      console.error(" Error:", err);
-    }
+  const handleNextStep = (email: string) => {
+    setEmail(email);
+    setStep(1);
   };
 
   return (
-    <div className="flex gap-12 m-5">
-      <div className="flex items-center justify-center ml-25">
-        {step === 0 && (
-          <SignUpEmail
-            email={formValues.email}
-            setEmail={(email: string) =>
-              setFormValues((prev) => ({ ...prev, email }))
-            }
-            handleNextStep={handleNextStep}
-          />
-        )}
-
-        {step === 1 && (
-          <SignUpPassword
-            password={formValues.password}
-            setPassword={(password: string) =>
-              setFormValues((prev) => ({ ...prev, password }))
-            }
-            handleBackStep={handleBackStep}
-            handleSubmitAll={handleSubmitAll}
-          />
-        )}
+    <div className="w-360 flex m-auto py-5 pr-5 pl-25 gap-12">
+      <div className="mt-[226px]">
+        <StepComponents
+          email={email}
+          setStep={setStep}
+          handleNextStep={handleNextStep}
+        />
       </div>
-
-      <img
-        src="/images/Hurgelt.png"
-        alt="Today's Offer"
-        className="w-full h-full"
-      />
+      <LogImage />
     </div>
   );
 };
-
-export default SignUp;
+export default SignupPage;
