@@ -1,3 +1,5 @@
+import { FoodType } from "@/lib/types";
+
 type FoodMenuCardProps = {
   food: FoodType;
 };
